@@ -1,0 +1,6 @@
+setup.py
+twistedinput.egg-info/PKG-INFO
+twistedinput.egg-info/SOURCES.txt
+twistedinput.egg-info/dependency_links.txt
+twistedinput.egg-info/requires.txt
+twistedinput.egg-info/top_level.txt
