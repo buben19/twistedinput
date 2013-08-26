@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
-
 
 
 
@@ -29,4 +28,5 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries',
         'Topic :: System :: Hardware :: Hardware Drivers'],
-    install_requires    = required)
+    install_requires    = required,
+    packages            = find_packages())
