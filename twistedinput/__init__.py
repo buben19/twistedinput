@@ -7,4 +7,3 @@ __contact__     = 'ivo.slanina@gmail.com'
 __license__     = 'Unlicense'
 __url__         = 'https://github.com/buben19/twistedinput'
 
-from .twistedinput import *
