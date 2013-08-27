@@ -22,7 +22,8 @@ class EventProtocol(Protocol):
     def dataReceived(self, data):
         lastIndex = 0
         self.__buffer += data
-        while lastIndex < len(self.__buffer) and len(self.__buffer) >= self.__eventFactory.eventSize():
+        while lastIndex < len(self.__buffer) and \
+                len(self.__buffer) >= self.__eventFactory.eventSize():
             self.eventReceived(
                 self.__eventFactory.buildEvent(
                     self.__buffer[lastIndex : lastIndex + self.__eventFactory.eventSize()]))
@@ -30,17 +31,16 @@ class EventProtocol(Protocol):
         self.__buffer = self.__buffer[lastIndex:]
 
     def eventReceived(self, event):
+        handler = None
         try:
-            getattr(self, self.__eventMapping.getHandler(event))(event)
-        except AttributeError:
-
-            # potocol doesn't provide hadler method
-            pass
-
+            handler = self.__eventMapping.getHandler(event)
         except KeyError:
 
             # mapping doesn't support handler for this event
-            print "unsupported event: %s" % repr(event)
+            pass
+
+        if hasattr(self, handler) and callable(getattr(self, handler)):
+            getattr(self, handler)(event)
 
 class EventSniffer(EventProtocol):
     """
