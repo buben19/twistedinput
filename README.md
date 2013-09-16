@@ -38,10 +38,12 @@ reactor.run()
 
 Accordint to linux/input.h header file. any input event consists from four
 fields:
-    * timestamp
-    * type
-    * code
-    * value
+
+    timestamp
+    type
+    code
+    value
+
 Type and code fields has defined values that can take. But these values are
 meaningless for describing physical buttons.
 For example, when I press button 1 on my gamepad, input_event with type EV_KEY
