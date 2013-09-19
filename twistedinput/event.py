@@ -140,4 +140,9 @@ class JoystickEvent(BaseEvent):
 
     @classmethod
     def buildJoystickEvent(cls, value, type, number):
-        pass
+        return cls(
+            js_event(
+                0,
+                value,
+                type,
+                number))
