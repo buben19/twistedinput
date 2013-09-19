@@ -73,8 +73,12 @@ class InputEvent(BaseEvent):
         return sizeof(input_event)
 
     def __unicode__(self):
-        return "type: 0x%04x, code: 0x%04x, value: 0x%08x" % \
-            (self.type, self.code, self.value & 0xffffffff)
+        return "time: %d.%d, type: 0x%04x, code: 0x%04x, value: 0x%08x" % \
+            (self.time.seconds,
+                self.time.useconds,
+                self.type,
+                self.code,
+                self.value & 0xffffffff)
 
     @classmethod
     def buildInputEvent(cls, type, code, value):
