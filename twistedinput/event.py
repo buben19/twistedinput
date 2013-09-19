@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 from ctypes import *
 from defines import timeval, input_event, js_event
+import time as itime
+import math
 
 
 class BaseEvent(object):
@@ -81,13 +83,30 @@ class InputEvent(BaseEvent):
                 self.value & 0xffffffff)
 
     @classmethod
-    def buildInputEvent(cls, type, code, value):
+    def buildInputEvent(cls, type, code, value, time = None):
         return cls(
             input_event(
-                timeval(0, 0),
+                cls.__getTime(time),
                 type,
                 code,
                 value))
+
+    @classmethod
+    def __getTime(cls, time):
+        if not time:
+            useconds, seconds = math.modf(itime.time())
+
+            # use 7 decimal number in usec
+            return timeval(int(seconds), int(useconds * 1e7))
+        try:
+            seconds, useconds = time
+            assert isinstance(seconds, (int, long))
+            assert isinstance(useconds, (int, long))
+        except (TypeError, AssertionError):
+            pass
+        else:
+            return timeval(seconds, useconds)
+        raise TypeError("wrong time")
 
 class Time(object):
 
@@ -143,10 +162,19 @@ class JoystickEvent(BaseEvent):
         return sizeof(js_event)
 
     @classmethod
-    def buildJoystickEvent(cls, value, type, number):
+    def buildJoystickEvent(cls, value, type, number, time = None):
         return cls(
             js_event(
-                0,
+                cls.__getTime(time),
                 value,
                 type,
                 number))
+
+    @classmethod
+    def __getTime(cls, time):
+        if not time:
+            return int(itime.time * 1000)
+        elif isinstance(time (int, long)):
+            return time
+        else:
+            raise TypeError("wring time")
