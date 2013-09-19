@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from ctypes import *
-from defines import input_event, js_event
+from defines import timeval, input_event, js_event
 
 
 class BaseEvent(object):
@@ -20,6 +20,9 @@ class BaseEvent(object):
 
     def __repr__(self):
         return ("<%s %s>" % (self.__class__.__name__, unicode(self))).encode("utf-8")
+
+    def toBytes(self):
+        return str(buffer(self._event))
 
 class InputEvent(BaseEvent):
     """
@@ -73,6 +76,15 @@ class InputEvent(BaseEvent):
         return "type: 0x%04x, code: 0x%04x, value: 0x%08x" % \
             (self.type, self.code, self.value & 0xffffffff)
 
+    @classmethod
+    def buildInputEvent(cls, type, code, value):
+        return cls(
+            input_event(
+                timeval(0, 0),
+                type,
+                code,
+                value))
+
 class Time(object):
 
     __time = None
@@ -125,3 +137,7 @@ class JoystickEvent(BaseEvent):
     @classmethod
     def size(cls):
         return sizeof(js_event)
+
+    @classmethod
+    def buildJoystickEvent(cls, value, type, number):
+        pass
