@@ -93,7 +93,7 @@ class InputEvent(BaseEvent):
 
     @classmethod
     def __getTime(cls, time):
-        if not time:
+        if time is None:
             useconds, seconds = math.modf(itime.time())
 
             # use 7 decimal number in usec
@@ -172,9 +172,9 @@ class JoystickEvent(BaseEvent):
 
     @classmethod
     def __getTime(cls, time):
-        if not time:
+        if time is None:
             return int(itime.time * 1000)
         elif isinstance(time (int, long)):
             return time
         else:
-            raise TypeError("wring time")
+            raise TypeError("wrong time")

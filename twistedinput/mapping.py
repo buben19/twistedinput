@@ -56,7 +56,13 @@ class BaseEventMapping(BaseMapping):
         return {}
 
     def getMscMapping(self):
-        return {}
+        return {
+            MSC_SERIAL      : "miscSerial",
+            MSC_PULSELED    : "miscPulseLed",
+            MSC_GESTURE     : "miscGesture",
+            MSC_RAW         : "miscRaw",
+            MSC_SCAN        : "miscScan",
+            MSC_MAX         : "miscMax"}
 
     def getSwMapping(self):
         return {}
@@ -114,12 +120,118 @@ class GamepadEventMapping(BaseEventMapping):
             ABS_HAT0X       : "dpadX",
             ABS_HAT0Y       : "dpadY"}
 
-    def getMscMapping(self):
-        return {
-            MSC_SERIAL      : "miscSerial",
-            MSC_PULSELED    : "miscPulseLed",
-            MSC_GESTURE     : "miscGesture",
-            MSC_RAW         : "miscRaw",
-            MSC_SCAN        : "miscScan",
-            MSC_MAX         : "miscMax"}
+class KeyboardMapping(BaseEventMapping):
 
+    def getKeyMapping(self):
+        keys = {}
+        keys.update(self.alphanumericKeys())
+        keys.update(self.functionKeys())
+        keys.update(self.directionKeys())
+        keys.update(self.specialKeys())
+        keys.update(self.genericKeys())
+        keys.update(self.laptopKeys())
+        return keys
+
+    def alphanumericKeys(self):
+        keys = {}
+        keys.update(self.characterKeys())
+        keys.update(self.numericKeys())
+        return keys
+
+    def characterKeys(self):
+        return {
+            KEY_A           : "keyA",
+            KEY_B           : "keyB",
+            KEY_C           : "keyC",
+            KEY_D           : "keyD",
+            KEY_E           : "keyE",
+            KEY_F           : "keyF",
+            KEY_G           : "keyG",
+            KEY_H           : "keyH",
+            KEY_I           : "keyI",
+            KEY_J           : "keyJ",
+            KEY_K           : "keyK",
+            KEY_L           : "keyL",
+            KEY_M           : "keyM",
+            KEY_N           : "keyN",
+            KEY_O           : "keyO",
+            KEY_P           : "keyP",
+            KEY_Q           : "keyQ",
+            KEY_R           : "keyR",
+            KEY_S           : "keyS",
+            KEY_T           : "keyT",
+            KEY_U           : "keyU",
+            KEY_V           : "keyV",
+            KEY_W           : "keyW",
+            KEY_X           : "keyX",
+            KEY_Y           : "keyY",
+            KEY_Z           : "keyZ"}
+
+    def numericKeys(self):
+        return {
+            KEY_1           : "key1",
+            KEY_2           : "key2",
+            KEY_3           : "key3",
+            KEY_4           : "key4",
+            KEY_5           : "key5",
+            KEY_6           : "key6",
+            KEY_7           : "key7",
+            KEY_8           : "key8",
+            KEY_9           : "key9",
+            KEY_0           : "key0"}
+
+    def functionKeys(self):
+        return {
+            KEY_F1          : "keyF1",
+            KEY_F2          : "keyF2",
+            KEY_F3          : "keyF3",
+            KEY_F4          : "keyF4",
+            KEY_F5          : "keyF5",
+            KEY_F6          : "keyF6",
+            KEY_F7          : "keyF7",
+            KEY_F8          : "keyF8",
+            KEY_F9          : "keyF9",
+            KEY_F10         : "keyF10",
+            KEY_F11         : "keyF11",
+            KEY_F12         : "keyF12"}
+
+    def directionKeys(self):
+        return {
+            KEY_UP          : "keyArrowUp",
+            KEY_DOWN        : "keyArrowDown",
+            KEY_LEFT        : "keyArrowLeft",
+            KEY_RIGHT       : "keyArrowRight"}
+
+    def specialKeys(self):
+        return {
+            KEY_INSERT      : "keyInsert",
+            KEY_DELETE      : "keyDelete",
+            KEY_PAGEUP      : "keyPageUp",
+            KEY_PAGEDOWN    : "keyPageDown",
+            KEY_HOME        : "keyHome",
+            KEY_END         : "keyEnd"}
+
+    # I don't now how to name this group of keys :)
+    def genericKeys(self):
+        return {
+            KEY_ESC         : "keyEsc",
+            KEY_TAB         : "keyTab",
+            KEY_CAPSLOCK    : "keyCapsLock",
+            KEY_LEFTSHIFT   : "keyLeftShift",
+            KEY_LEFTCTRL    : "keyLeftCtrl",
+            KEY_LEFTALT     : "keyLeftAlt",
+            KEY_LEFTMETA    : "keyLeftMeta",
+            KEY_SPACE       : "keySpace",
+            KEY_BACKSPACE   : "keyBackspace",
+            KEY_ENTER       : "keyEnter",
+            KEY_RIGHTSHIFT  : "keyRightShift",
+            KEY_RIGHTCTRL   : "keyRightCtrl",
+            KEY_RIGHTALT    : "keyRightAlt",
+            KEY_RIGHTMETA   : "keyRightMeta"}
+
+    def laptopKeys(self):
+        """
+        keys related for laptops
+        """
+        return {
+            KEY_FN          : "keyFn"}

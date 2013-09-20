@@ -9,14 +9,14 @@ class EventProtocol(Protocol):
     __eventFactory = None
 
     # define which method will be called at given event
-    __eventMapping = None
+    eventMapping = None
 
     # buffering event bytes
     __buffer = None
 
     def __init__(self, eventFactory, eventMapping = None):
         self.__eventFactory = eventFactory
-        self.__eventMapping = eventMapping
+        self.eventMapping = eventMapping
         self.__buffer = str()
 
     def dataReceived(self, data):
@@ -33,14 +33,20 @@ class EventProtocol(Protocol):
     def eventReceived(self, event):
         handler = None
         try:
-            handler = self.__eventMapping.getHandler(event)
+            handler = self.eventMapping.getHandler(event)
         except KeyError:
 
             # mapping doesn't support handler for this event
-            pass
+            self.nonMappedEvent(event)
 
         if hasattr(self, handler) and callable(getattr(self, handler)):
             getattr(self, handler)(event)
+
+    def nonMappedEvent(self, event):
+        """
+        if mapping is used and particular event isn't mapped, this method will
+        be called with this event as an argument
+        """
 
 class EventSniffer(EventProtocol):
     """
