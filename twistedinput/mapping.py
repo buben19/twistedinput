@@ -235,3 +235,23 @@ class KeyboardMapping(BaseEventMapping):
         """
         return {
             KEY_FN          : "keyFn"}
+
+class MouseMapping(BaseEventMapping):
+
+    def getRelMapping(self):
+        return {
+            REL_X           : "axisX",
+            REL_Y           : "axisY",
+            REL_Z           : "axisZ",
+            REL_WHEEL       : "wheel"}
+
+    def getKeyMapping(self):
+        return {
+            BTN_LEFT        : "buttonLeft",
+            BTN_RIGHT       : "buttonRight",
+            BTN_MIDDLE      : "buttonMiddle",
+            BTN_SIDE        : "buttonSide",
+            BTN_EXTRA       : "buttonExtra",
+            BTN_FORWARD     : "buttonForward",
+            BTN_BACK        : "buttonBack",
+            BTN_TASK        : "buttonTask"}
