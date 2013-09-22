@@ -36,7 +36,7 @@ reactor.run()
 
 ### Event Mapping
 
-Accordint to linux/input.h header file. any input event consists from four
+Accordint to linux/input.h header file, any input event consists from four
 fields:
 
     timestamp
@@ -44,7 +44,7 @@ fields:
     code
     value
 
-Type and code fields has defined values that can take. But these values are
+Type and code fields has defined values  that can take. But these values are
 meaningless for describing physical buttons.
 For example, when I press button 1 on my gamepad, input_event with type EV_KEY
 and code BTN_TRIGGER is emitted. But I pressed button 1, not trigger.
@@ -67,3 +67,55 @@ omnited, you have to override eventReceived method and handle event by yourself.
 Factory is simple object which takes bytes representing data stream emmited by
 event and returns object represnting this event.
 It also provides information of size of the event.
+
+### Sending events into device
+
+You also can send events into device. Let's suppose that your keyboard is
+represented by /dev/input/event0 file.
+
+```pycon
+from twistedinput.device import EventDevice
+from twistedinput.protocol import EventProtocol
+from twistedinput.factory import InputEventFactory
+from twistedinput.mapping import KeyboardMapping
+from twistedinput.event import InputEvent
+from twistedinput.defines import *
+from twisted.internet import task
+from twisted.internet import reactor
+
+
+class BlinkCaps(object):
+
+    state = False
+    protocol = None
+
+    def __init__(self, protocol):
+        self.protocol = protocol
+
+    def __call__(self):
+        self.protocol.transport.write(self.createEvent().toBytes())
+        self.protocol.transport.write(self.syncEvent().toBytes())
+
+    def createEvent(self):
+        value = 1 if self.state else 0
+        self.state = not self.state
+        return InputEvent.buildInputEvent(EV_LED, LED_CAPSL, value)
+
+    def syncEvent(self):
+        return InputEvent.buildInputEvent(EV_SYN, SYN_REPORT, 0)
+
+protocol = EventProtocol(InputEventFactory(), KeyboardMapping())
+device = EventDevice(
+    protocol,
+    "/dev/input/event0")
+device.startReading()
+
+t = BlinkCaps(protocol)
+l = task.LoopingCall(t)
+l.start(1.0)
+
+
+reactor.run()
+```
+
+This example will blink your CapsLock LED

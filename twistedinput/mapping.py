@@ -243,7 +243,8 @@ class MouseMapping(BaseEventMapping):
             REL_X           : "axisX",
             REL_Y           : "axisY",
             REL_Z           : "axisZ",
-            REL_WHEEL       : "wheel"}
+            REL_WHEEL       : "verticalWheel",
+            REL_HWHEEL      : "horizontalWheel"}
 
     def getKeyMapping(self):
         return {

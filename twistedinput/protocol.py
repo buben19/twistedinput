@@ -39,8 +39,9 @@ class EventProtocol(Protocol):
             # mapping doesn't support handler for this event
             self.nonMappedEvent(event)
 
-        if hasattr(self, handler) and callable(getattr(self, handler)):
-            getattr(self, handler)(event)
+        else:
+            if hasattr(self, handler) and callable(getattr(self, handler)):
+                getattr(self, handler)(event)
 
     def nonMappedEvent(self, event):
         """
