@@ -119,3 +119,8 @@ reactor.run()
 ```
 
 This example will blink your CapsLock LED
+
+### Want read more?
+
+You can find more informations about twistedinput at my
+(blog)[http://buben19.blogspot.cz/]
