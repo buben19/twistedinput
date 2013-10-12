@@ -6,7 +6,7 @@ Twisted is Python framework for asynchronous IO and event driven programming.
 Twistedinput is library for this framework for interacting input devices, such
 as gamepads, joysticks, mouses and etc in asynchrounous fashion.
 
-An input event is represented by standar input_event structure defined in
+An input event is represented by standard input_event structure defined in
 linux/input.h header file. Twistedinput also supports js_event for joysticks
 defined in linux/joystick.h.
 
