@@ -22,8 +22,6 @@ class EventDevice(FileDescriptor):
         self.reading = False
         self.backToReading = False
 
-        #fdesc.setNonBlocking(self.fileno())
-
     def fileno(self):
         return self.__device.fileno()
 
